@@ -48,6 +48,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/employees/**").permitAll()
                         .requestMatchers("/api/v1/bookings/**").permitAll()
                         .requestMatchers("/api/v1/orders/**").permitAll()
+                        .requestMatchers("api/v1/customers/**").permitAll()
 
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))//ko lưu token o session

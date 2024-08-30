@@ -18,6 +18,9 @@ public class RestaurantTable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+    private String nameTable;
+
     @Column(nullable = false )
     private String qrCode;
 

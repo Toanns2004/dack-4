@@ -1,6 +1,4 @@
-package org.example.projectapi.dto.request;
-
-import java.util.Date;
+package org.example.projectapi.dto.response;
 
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -14,19 +12,18 @@ import org.example.projectapi.enums.PaymentMethod;
 import org.example.projectapi.enums.StatusOrder;
 import org.hibernate.annotations.CreationTimestamp;
 
-@Getter
+import java.util.Date;
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderRequest {
+public class OrderResponse {
     private String billNumber;
 
-    private Long customerId;
+    private String nameCustomer;
 
-    @NotBlank
-    private Long restaurantTableId;
+    private String nameTable;
 
-    private Date bookingTime;
 
     private String coupon;
 
@@ -35,10 +32,11 @@ public class OrderRequest {
     @CreationTimestamp
     private Date createAt;
 
-    @NotNull
-    private PaymentMethod payment;
-    @NotNull
-    private StatusOrder status;
+//    @NotNull
+//    private PaymentMethod payment;
+//    @NotNull
+//    private StatusOrder status;
+
     @NotNull
     private double originalPrice;
 
@@ -46,5 +44,6 @@ public class OrderRequest {
     @NotNull
     private double totalPrice;
 
+    private String error;
 
 }

@@ -25,7 +25,6 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     private String billNumber;
 
     @ManyToOne(fetch = FetchType.EAGER)
