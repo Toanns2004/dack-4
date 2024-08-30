@@ -25,6 +25,9 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    private String billNumber;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
     private Customer customer;
@@ -56,7 +59,6 @@ public class Orders {
     @Column(nullable = false)
     private double originalPrice;
 
-    @Column(nullable = false)
     private double totalDiscount;
 
     @Column(nullable = false)
@@ -71,5 +73,6 @@ public class Orders {
     public void setTotalPrice(double totalDiscount, double originalPrice) {
         this.totalPrice = Math.abs(originalPrice-totalDiscount);
     }
+
 
 }

@@ -2,6 +2,8 @@ package org.example.projectapi.Controller;
 
 import org.example.projectapi.Service.CouponService;
 import org.example.projectapi.Service.CustomerService;
+import org.example.projectapi.dto.request.CouponRequest;
+import org.example.projectapi.dto.response.MessageRespone;
 import org.example.projectapi.model.Coupon;
 import org.example.projectapi.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,31 +32,34 @@ public class CouponController {
     }
 
     @PostMapping
-    public Coupon createCoupon(@RequestBody Coupon publisher) {
-        return couponService.save(publisher);
+    public Coupon createCoupon(@RequestBody CouponRequest couponRequest) {
+        Coupon newCoupon = new Coupon();
+        newCoupon.setName(couponRequest.getName());
+        newCoupon.setDiscount(couponRequest.getDiscount());
+        return couponService.save(newCoupon);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Coupon> updateCoupon(@PathVariable Long id, @RequestBody Coupon publisherDetails) {
-        Optional<Coupon> publisher = couponService.findById(id);
-        if (publisher.isPresent()) {
-            Coupon updatedPublisher = publisher.get();
-            updatedPublisher.setName(publisherDetails.getName());
-            updatedPublisher.setDiscount(publisherDetails.getDiscount());
-            return ResponseEntity.ok(couponService.save(updatedPublisher));
+    public ResponseEntity<Coupon> updateCoupon(@PathVariable Long id, @RequestBody CouponRequest couponRequest) {
+        Optional<Coupon> couponOptional = couponService.findById(id);
+        if (couponOptional.isPresent()) {
+            Coupon couponUpdate = couponOptional.get();
+            couponUpdate.setName(couponRequest.getName());
+            couponUpdate.setDiscount(couponRequest.getDiscount());
+            return ResponseEntity.ok(couponService.save(couponUpdate));
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCoupon(@PathVariable Long id) {
+    public ResponseEntity<MessageRespone> deleteCoupon(@PathVariable Long id) {
         Optional<Coupon> publisher = couponService.findById(id);
         if (publisher.isPresent()) {
             couponService.deleteById(id);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok(new MessageRespone("Coupon deleted successfully"));
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(new MessageRespone("Coupon could not be deleted"));
         }
     }
 }

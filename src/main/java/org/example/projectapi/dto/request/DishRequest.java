@@ -9,7 +9,6 @@ import org.example.projectapi.enums.StatusDish;
 @Setter
 @AllArgsConstructor
 public class DishRequest {
-    private Long id;
     private String name;
     private double price;
     private String image;

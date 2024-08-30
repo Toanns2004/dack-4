@@ -1,10 +1,12 @@
 package org.example.projectapi.Controller;
 
+import org.example.projectapi.Service.CouponService;
 import org.example.projectapi.Service.CustomerService;
 import org.example.projectapi.Service.OrderService;
 import org.example.projectapi.Service.RestaurantTableService;
 import org.example.projectapi.dto.request.OrderRequest;
 import org.example.projectapi.dto.response.MessageRespone;
+import org.example.projectapi.model.Coupon;
 import org.example.projectapi.model.Customer;
 import org.example.projectapi.model.Orders;
 import org.example.projectapi.model.RestaurantTable;
@@ -25,6 +27,8 @@ public class OrderController {
     @Autowired
     private RestaurantTableService restaurantTableService;
     @Autowired
+    private CouponService couponService;
+    @Autowired
     private CustomerService customerService;
 
     @GetMapping
@@ -41,17 +45,25 @@ public class OrderController {
     @PostMapping("/{tableId}")
     public ResponseEntity<Orders> createOrders(@PathVariable Long tableId, @RequestBody OrderRequest orderRequest) {
         Orders newOrder = new Orders();
+        double totalDiscount= 0;
+
         Optional<RestaurantTable> table = restaurantTableService.findById(tableId);
         if (table.isPresent() ) {
             newOrder.setRestaurantTable(table.get());
+
 //            newOrder.setCustomer(orderRequest.getCustomerId());
+            Optional<Coupon> coupon = couponService.findByName(orderRequest.getCoupon());
+            if (coupon.isPresent()) {
+                newOrder.setCoupon(coupon.get());
+                 totalDiscount = Math.abs(orderRequest.getOriginalPrice()*coupon.get().getDiscount());
+            }
             newOrder.setCreateAt(orderRequest.getCreateAt());
             newOrder.setBookingTime(orderRequest.getBookingTime());
             newOrder.setStatus(orderRequest.getStatus());
             newOrder.setPayment(orderRequest.getPayment());
             newOrder.setOriginalPrice(orderRequest.getOriginalPrice());
-            newOrder.setTotalDiscount(orderRequest.getTotalDiscount());
-            newOrder.setTotalPrice(orderRequest.getOriginalPrice(),orderRequest.getTotalDiscount());
+            newOrder.setTotalDiscount(totalDiscount);
+            newOrder.setTotalPrice(orderRequest.getOriginalPrice(),totalDiscount);
             Orders saveOrder= orderService.save(newOrder);
             return ResponseEntity.ok(saveOrder);
         }

@@ -14,7 +14,9 @@ public class CouponService {
     @Autowired
     private CouponRepository couponRepository;
 
-
+    public Optional<Coupon> findByName(String name){
+        return couponRepository.findByName(name);
+    }
 
     public List<Coupon> findAll() {
         return couponRepository.findAll();

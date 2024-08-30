@@ -41,5 +41,12 @@ public class OrderService {
         return customerRepository.findById(id).get();
     }
 
+    public Orders findByBillNumber(String billNumber) {
+        Optional<Orders> orders = orderRepository.findByBillNumber(billNumber);
+        if (orders.isPresent()) {
+            return orders.get();
+        }
+        return null;
+    }
 
 }

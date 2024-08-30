@@ -11,7 +11,6 @@ import java.util.Set;
 @Getter
 @Setter
 public class EmployeeRequest {
-    private Long id;
 
     @NotNull(message = "Full name is required")
     private String fullName;

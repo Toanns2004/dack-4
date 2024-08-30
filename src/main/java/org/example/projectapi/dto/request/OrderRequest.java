@@ -19,7 +19,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderRequest {
-    private Long id;
+    private String billNumber;
 
 
     private Long customerId;
@@ -29,7 +29,7 @@ public class OrderRequest {
 
     private Date bookingTime;
 
-    private Long couponId;
+    private String coupon;
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
@@ -42,7 +42,7 @@ public class OrderRequest {
     private StatusOrder status;
     @NotNull
     private double originalPrice;
-    @NotNull
+
     private double totalDiscount;
     @NotNull
     private double totalPrice;
